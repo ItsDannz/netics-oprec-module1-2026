@@ -67,8 +67,8 @@
     ```python
     def health_page():
         uptime_seconds = int(time.time() - start_time) #selisih current time dan start time
-        h, remain = divmod(uptime_seconds, 3600) //jam dan sisanya dalam detik
-        m, s = divmod(remain, 60) //menit dan sisanya dalam detik
+        h, remain = divmod(uptime_seconds, 3600) #jam dan sisanya dalam detik
+        m, s = divmod(remain, 60) #menit dan sisanya dalam detik
     
         data_set = {
             'nama': 'Hazza Danta Hermandanu',
@@ -124,4 +124,112 @@
         ```dockerfile
         CMD ["python", "modul1.py"]
         ```
+        <br>
+
+4. playbook.yaml
+   ```yaml
+    ---
+    - name: Deployment API ke Docker
+      hosts: vps_azure
+      become: yes
+    ```
+    - Task
+      ```yaml
+      tasks:
+      ```
+        - Install Nginx, Docker, dan pip
+            ```yaml
+            - name: Install Nginx, Docker, pip
+                  apt:
+                    name:
+                      - nginx
+                      - docker.io
+                      - python3-pip
+                    state: present
+                    update_cache: yes
+            ```
+        - Install Docker SDK
+            ```yaml
+            - name: Install Docker SDK
+              pip:
+                name: docker
+                state: present
+                extra_args: "--break-system-packages"
+           ```
+        - Cek Docker
+            ```yaml
+            - name: Cek Docker
+              systemd:
+                name: docker
+                state: started
+                enabled: yes
+            ```
+        - Buat direktori di VPS
+            ```yaml
+            - name: Buat direktori di VPS
+              file:
+                path: /home/azureuser/modul_deployment
+                state: directory
+            ```
+        - Copy modul.py & Dockerfile ke VPS
+            ```yaml
+            - name: Copy file modul1.py dan Dockerfile ke VPS
+              copy:
+                src: "{{ item }}"
+                dest: /home/azureuser/modul_deployment/
+              with_items:
+                - modul1.py
+                - Dockerfile
+            ```
+        - Build Docker Image di VPS
+            ```yaml
+            - name: Build Docker Image di VPS
+              community.docker.docker_image:
+                name: api-danu
+                build:
+                  path: /home/azureuser/modul_deployment
+                source: build
+                force_source: yes
+            ```
+        - Jalankan API di port 6767
+            ```yaml
+            - name: Jalankan Container API di port 6767
+              community.docker.docker_container:
+                name: api_container
+                image: api-danu:latest
+                state: started
+                restart_policy: always
+                published_ports:
+                  - "127.0.0.1:6767:6767"
+            ```
+        - Konfigurasi Nginx sebagai Reverse Proxy
+            ```yaml
+            - name: Konfigurasi Nginx sebagai Reverse Proxy
+              copy:
+                dest: /etc/nginx/sites-available/default
+                content: |
+                  server {
+                      listen 80;
+                      server_name _;
+                      location / {
+                          proxy_pass http://127.0.0.1:6767;
+                          proxy_set_header Host $host;
+                          proxy_set_header X-Real-IP $remote_addr;
+                          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                      }
+                  }
+              notify: Restart Nginx
+            ```
+    - Handler
+        ```yaml
+        handlers:
+        ```
+        - Restart Nginx
+            ```yaml
+            - name: Restart Nginx
+              systemd:
+                name: nginx
+                state: restarted
+            ```
+   ```
 
