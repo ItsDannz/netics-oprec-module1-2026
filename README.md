@@ -4,7 +4,7 @@
 | ---            | ---        |
 | Hazza Danta Hermandanu               | 5025241117           |
 
-##Deskripsi Tugas
+## Deskripsi Tugas
 1. Membuat API publik dengan endpoint `/health` yang menampilkan informasi:
   ```python
   {
@@ -20,7 +20,7 @@
 4. Lakukan proses CI/CD menggunakan github actions untuk melakukan otomasi proses deployment.
 5. Dokumentasikan pekerjaan dalam laporan berbentuk markdown.
 
-##Environtment yang digunakan
+## Environtment yang digunakan
 - VPS: Micrososft Azure
 - Bahasa: Python
 - Otomasi: Ansible
@@ -28,7 +28,7 @@
 - CI/CD: Github Action
 - Nginx (Reverse Proxy), di konfigurasi di `playbook.yaml`
 
-##Penjelasan
+## Penjelasan
 1. modul1.py
   - Import Library
     ```python
