@@ -4,6 +4,9 @@
 | ---            | ---        |
 | Hazza Danta Hermandanu               | 5025241117           |
 
+## URL API
+`http://52.175.122.105/health`
+
 ## Deskripsi Tugas
 1. Membuat API publik dengan endpoint `/health` yang menampilkan informasi:
     ```python
@@ -184,6 +187,9 @@
     git push -u origin main     
    ```
 8. Buat GitHub Action (deploy.yaml)
+   ```bash
+   nano .github/workflows/deploy.yml
+   ```
    ```yaml
     name: CI/CD Deploy
     
@@ -228,13 +234,15 @@
               sleep 5
               curl -f http://52.175.122.105/health
     ```
-9. Tambahkan SSH key yang sudah didapatkan dari file `*.pem` ke GitHub Secret
-    
-
-
-
-
-   
+10. Buat `Repository Secret` baru dan tambahkan SSH key yang sudah didapatkan dari file `*.pem` ke GitHub Secret
+    <img width="751" height="122" alt="image" src="https://github.com/user-attachments/assets/73406ed8-03d7-47d7-a380-a0fb612107b0" /><br>
+11. Push `deploy.yaml` ke GitHub
+    ```bash
+    git add .
+    git commit -m "github actions"
+    git push
+    ```
+    <br>
 
 ## Penjelasan Code
 1. modul1.py
