@@ -11,8 +11,8 @@
       "nama": "(nama lengkap)",
       "nrp": "(nrp)",
       "status": "UP",
-      "timestamp": time	// Current time
-      "uptime": time	// Server uptime
+      "timestamp": time	//Current time
+      "uptime": time	//Server uptime
     }
     ```
 2. Lakukan deployment API dalam container VPS publik.
@@ -100,12 +100,28 @@
 
 3. Dockerfile
    Berisi perintah untuk membuat docker image.
+   - Gunakan image python 3.9
     ```dockerfile
-    FROM python:3.9-slim # gunakan image python 3.9
-    WORKDIR /modul1 #tetapkan workdir
-    COPY . /modul1 #salin semua folder ke workdir
-    RUN pip install flask #install flask
-    EXPOSE 6767 #beritahu docker bahwa container menggunakan port 6767
-    CMD ["python", "modul1.py"] #jalankan saat container dinyalakan
+    FROM python:3.9-slim
+    ```
+    - Tetapkan work direktori
+    ```dockerfile
+    WORKDIR /modul1
+    ```
+    - Salin semua folder ke work direktori
+    ```dockerfile
+    COPY . /modul1
+    ```
+    - Install `flask`
+    ```dockerfile
+    RUN pip install flask
+    ```
+    - Beritahu docker bahwa container menggunakan port 6767
+    ```dockerfile
+    EXPOSE 6767
+    ```
+    - Jalankan saat container dinyalakan
+    ```dockerfile
+    CMD ["python", "modul1.py"]
     ```
 
