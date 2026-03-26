@@ -126,7 +126,7 @@
         ```
         <br>
 
-4. playbook.yaml
+4. playbook.yaml<br>
    Header
    ```yaml
     ---
