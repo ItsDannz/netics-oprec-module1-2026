@@ -1,0 +1,76 @@
+---
+- name: Deployment API ke Docker
+  hosts: vps_azure
+  become: yes
+  tasks:
+    - name: Install Nginx, Docker, pip
+      apt:
+        name:
+          - nginx
+          - docker.io
+          - python3-pip
+        state: present
+        update_cache: yes
+
+    - name: Install Docker SDK
+      pip:
+        name: docker
+        state: present
+        extra_args: "--break-system-packages"
+    - name: Cek Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Buat direktori di VPS
+      file:
+        path: /home/azureuser/modul_deployment
+        state: directory
+
+    - name: Copy file modul1.py dan Dockerfile ke VPS
+      copy:
+        src: "{{ item }}"
+        dest: /home/azureuser/modul_deployment/
+      with_items:
+        - modul1.py
+        - Dockerfile
+
+    - name: Build Docker Image di VPS
+      community.docker.docker_image:
+        name: api-danu
+        build:
+          path: /home/azureuser/modul_deployment
+        source: build
+        force_source: yes
+
+    - name: Jalankan Container API di port 6767
+      community.docker.docker_container:
+        name: api_container
+        image: api-danu:latest
+        state: started
+        restart_policy: always
+        published_ports:
+          - "127.0.0.1:6767:6767"
+
+    - name: Konfigurasi Nginx sebagai Reverse Proxy
+      copy:
+        dest: /etc/nginx/sites-available/default
+        content: |
+          server {
+              listen 80;
+              server_name _;
+              location / {
+                  proxy_pass http://127.0.0.1:6767;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              }
+          }
+      notify: Restart Nginx
+
+  handlers:
+    - name: Restart Nginx
+      systemd:
+        name: nginx
+        state: restarted
