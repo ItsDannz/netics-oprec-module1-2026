@@ -101,7 +101,7 @@
 3. Dockerfile
    Berisi perintah untuk membuat docker image.
     ```dockerfile
-    FROM python:3.9-slim #gunakan image python 3.9
+    FROM python:3.9-slim # gunakan image python 3.9
     WORKDIR /modul1 #tetapkan workdir
     COPY . /modul1 #salin semua folder ke workdir
     RUN pip install flask #install flask
