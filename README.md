@@ -101,27 +101,27 @@
 3. Dockerfile
    Berisi perintah untuk membuat docker image.
    - Gunakan image python 3.9
-    ```dockerfile
-    FROM python:3.9-slim
-    ```
+        ```dockerfile
+        FROM python:3.9-slim
+        ```
     - Tetapkan work direktori
-    ```dockerfile
-    WORKDIR /modul1
-    ```
+        ```dockerfile
+        WORKDIR /modul1
+        ```
     - Salin semua folder ke work direktori
-    ```dockerfile
-    COPY . /modul1
-    ```
+        ```dockerfile
+        COPY . /modul1
+        ```
     - Install `flask`
-    ```dockerfile
-    RUN pip install flask
-    ```
+        ```dockerfile
+        RUN pip install flask
+        ```
     - Beritahu docker bahwa container menggunakan port 6767
-    ```dockerfile
-    EXPOSE 6767
-    ```
+        ```dockerfile
+        EXPOSE 6767
+        ```
     - Jalankan saat container dinyalakan
-    ```dockerfile
-    CMD ["python", "modul1.py"]
-    ```
+        ```dockerfile
+        CMD ["python", "modul1.py"]
+        ```
 
