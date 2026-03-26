@@ -11,8 +11,8 @@
       "nama": "(nama lengkap)",
       "nrp": "(nrp)",
       "status": "UP",
-      “timestamp”: time	// Current time
-      "uptime": time		// Server uptime
+      "timestamp": time	// Current time
+      "uptime": time	// Server uptime
     }
     ```
 2. Lakukan deployment API dalam container VPS publik.
@@ -66,7 +66,7 @@
     - Handler page `/health`
     ```python
     def health_page():
-        uptime_seconds = int(time.time() - start_time) //selisih current time dan start time
+        uptime_seconds = int(time.time() - start_time) #selisih current time dan start time
         h, remain = divmod(uptime_seconds, 3600) //jam dan sisanya dalam detik
         m, s = divmod(remain, 60) //menit dan sisanya dalam detik
     
@@ -87,5 +87,25 @@
     ```python
     if __name__ == '__main__':
         app.run(host='0.0.0.0', port=6767)
+    ```
+    <br>
+
+2. inventory.ini
+   File `inventory.ini` berisi target server (vps) yang akan dikelola oleh ansible.  
+    ```ini
+    [vps_azure]
+    52.175.122.105 ansible_user=azureuser ansible_ssh_private_key_file=~/vps-api-danu_key.pem ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+    ```
+    <br>
+
+3. Dockerfile
+   Berisi perintah untuk membuat docker image.
+    ```dockerfile
+    FROM python:3.9-slim #gunakan image python 3.9
+    WORKDIR /modul1 #tetapkan workdir
+    COPY . /modul1 #salin semua folder ke workdir
+    RUN pip install flask #install flask
+    EXPOSE 6767 #beritahu docker bahwa container menggunakan port 6767
+    CMD ["python", "modul1.py"] #jalankan saat container dinyalakan
     ```
 
