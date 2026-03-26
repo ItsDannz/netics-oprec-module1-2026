@@ -128,7 +128,7 @@
 
 4. playbook.yaml<br>
    Header
-   ```yaml
+    ```yaml
     ---
     - name: Deployment API ke Docker
       hosts: vps_azure
