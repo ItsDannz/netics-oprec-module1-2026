@@ -126,9 +126,9 @@
         ```
         <br>
 
-4. playbook.yaml<br>
-   Header
+4. playbook.yaml
     ```yaml
+    #Header
     ---
     - name: Deployment API ke Docker
       hosts: vps_azure
@@ -138,7 +138,7 @@
       ```yaml
       tasks:
       ```
-        - Install Nginx, Docker, dan pip
+        - Install Nginx, Docker, dan pip: Menginstall 3 package menggunakan `apt`, `update_cache: yes` akan menjalankan `apt update` terlebih dahulu
             ```yaml
             - name: Install Nginx, Docker, pip
                   apt:
@@ -149,7 +149,7 @@
                     state: present
                     update_cache: yes
             ```
-        - Install Docker SDK
+        - Install Docker SDK: Menginstall library python untuk ansible agar bisa mengontrol docker. Karena saya menggunakan VPS dengan versi Ubuntu 24.04, maka diperlukan extra argument berupa `--break-system-packages` untuk memaksa pip menginstall package
             ```yaml
             - name: Install Docker SDK
               pip:
@@ -157,7 +157,7 @@
                 state: present
                 extra_args: "--break-system-packages"
            ```
-        - Cek Docker
+        - Cek Docker: Memastikan service Docker sudah berjalan dan akan otomatis start saat reboot
             ```yaml
             - name: Cek Docker
               systemd:
@@ -165,14 +165,14 @@
                 state: started
                 enabled: yes
             ```
-        - Buat direktori di VPS
+        - Buat direktori di VPS: Membuat folder di VPS sebagai tempat menyimpan file project
             ```yaml
             - name: Buat direktori di VPS
               file:
                 path: /home/azureuser/modul_deployment
                 state: directory
             ```
-        - Copy modul.py & Dockerfile ke VPS
+        - Copy modul.py & Dockerfile ke VPS: Menyalin `modul1.py` dan `Dockerfile` ke VPS
             ```yaml
             - name: Copy file modul1.py dan Dockerfile ke VPS
               copy:
@@ -182,7 +182,7 @@
                 - modul1.py
                 - Dockerfile
             ```
-        - Build Docker Image di VPS
+        - Build Docker Image di VPS: Membuild Docker image bernama `api-danu` dari folder `modul_deployment`, `force_source: yes` akan memaksa rebuild meskipun image sudah ada
             ```yaml
             - name: Build Docker Image di VPS
               community.docker.docker_image:
@@ -192,7 +192,7 @@
                 source: build
                 force_source: yes
             ```
-        - Jalankan API di port 6767
+        - Jalankan API di port 6767: Menjalankan container dari image `api-danu`. `127.0.0.1:6767:6767` berarti port 6767 hanya bisa diakses dari dalam VPS dan tidak bisa langsung dari internet
             ```yaml
             - name: Jalankan Container API di port 6767
               community.docker.docker_container:
@@ -203,7 +203,7 @@
                 published_ports:
                   - "127.0.0.1:6767:6767"
             ```
-        - Konfigurasi Nginx sebagai Reverse Proxy
+        - Konfigurasi Nginx sebagai Reverse Proxy: Menulis konfigurasi Nginx langsung ke file default dan `notify: Restart Nginx` akan memanggil handler untuk restart Nginx setelah konfigurasi berubah
             ```yaml
             - name: Konfigurasi Nginx sebagai Reverse Proxy
               copy:
@@ -221,7 +221,7 @@
                   }
               notify: Restart Nginx
             ```
-    - Handler
+    - Handler: Handler akan dijalankan jika dipanggil oleh `notify`
         ```yaml
         handlers:
         ```
