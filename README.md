@@ -6,15 +6,15 @@
 
 ## Deskripsi Tugas
 1. Membuat API publik dengan endpoint `/health` yang menampilkan informasi:
-  ```python
-  {
-    "nama": "(nama lengkap)",
-    "nrp": "(nrp)",
-    "status": "UP",
-    “timestamp”: time	// Current time
-    "uptime": time		// Server uptime
-  }
-  ```
+    ```python
+    {
+      "nama": "(nama lengkap)",
+      "nrp": "(nrp)",
+      "status": "UP",
+      “timestamp”: time	// Current time
+      "uptime": time		// Server uptime
+    }
+    ```
 2. Lakukan deployment API dalam container VPS publik.
 3. Gunakan ansible untuk menginstall dan meletakkan konfigurasi nginx pada VPS, nginx berperan sebagai reverse proxy dan diakses dengan menjalankan ansible (bukan konfigurasi manual).
 4. Lakukan proses CI/CD menggunakan github actions untuk melakukan otomasi proses deployment.
