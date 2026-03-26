@@ -234,9 +234,9 @@
               sleep 5
               curl -f http://52.175.122.105/health
     ```
-10. Buat `Repository Secret` baru dan tambahkan SSH key yang sudah didapatkan dari file `*.pem` ke GitHub Secret
+9. Buat `Repository Secret` baru dan tambahkan SSH key yang sudah didapatkan dari file `*.pem` ke GitHub Secret
     <img width="751" height="122" alt="image" src="https://github.com/user-attachments/assets/73406ed8-03d7-47d7-a380-a0fb612107b0" /><br>
-11. Push `deploy.yaml` ke GitHub
+10. Push `deploy.yaml` ke GitHub
     ```bash
     git add .
     git commit -m "github actions"
@@ -537,4 +537,24 @@
                       sleep 5
                       curl -f http://52.175.122.105/health
                 ```
+                <br>
+
+## Best Practice yang telah diterapkan
+1. `.gitignore` untuk file `.pem` yang berisi SSH key
+   ```bash
+   nano .gitignore
+   ```
+   ```
+   #isi file .pem
+   ```
+2. SSH key yang disimpan di GitHub Secret (tidak di hardcode di file)
+3. Container otomatis restart jika crash atau VPS melakukan reboot (diterapkan di `playbook.yaml`)
+   ```yaml
+   restart_policy: always
+   ```
+4. Container hanya bind ke `127.0.0.1:6767` dimana port hanya bisa diakses lewat Nginx (diterapkan di `playbook.yaml`)
+   ```yaml
+   published_ports:
+   - "127.0.0.1:6767:6767"
+   ``` 
 
