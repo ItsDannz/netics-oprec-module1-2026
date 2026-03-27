@@ -564,4 +564,6 @@
 2. <https://docs.python.org/3/library/datetime.html>
 3. <https://github.com/arsitektur-jaringan-komputer/modul-ansible/>
 4. <https://docs.github.com/en/actions>
+5. <https://oneuptime.com/blog/post/2026-02-21-ansible-specify-ssh-private-key/view>
+6. <https://docs.ansible.com/projects/ansible/latest/>
 
