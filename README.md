@@ -5,7 +5,7 @@
 | Hazza Danta Hermandanu               | 5025241117           |
 
 ## URL API
-`http://52.175.122.105/health`
+<http://52.175.122.105/health>
 
 ## Deskripsi Tugas
 1. Membuat API publik dengan endpoint `/health` yang menampilkan informasi:
@@ -539,7 +539,7 @@
                 ```
                 <br>
 
-## Best Practice yang telah diterapkan
+## Best Practice Yang Telah Diterapkan
 1. `.gitignore` untuk file `.pem` yang berisi SSH key
    ```bash
    nano .gitignore
@@ -556,5 +556,11 @@
    ```yaml
    published_ports:
    - "127.0.0.1:6767:6767"
-   ``` 
+   ```
+   <br>
+
+## Referensi
+1. <https://youtu.be/5ZMpbdK0uqU?si=0vOLGOuXC7b23_mT>
+2. <https://docs.python.org/3/library/datetime.html>
+3. <https://github.com/arsitektur-jaringan-komputer/modul-ansible/>
 
