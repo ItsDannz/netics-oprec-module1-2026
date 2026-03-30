@@ -14,7 +14,7 @@ def health_page():
     m, s = divmod(remain, 60)
 
     data_set = {
-        'nama': 'Hazza Danta Hermandanu',
+        'nama': 'Hazza Danta',
         'nrp': '5025241117',
         'status': 'UP',
         'timestamp': datetime.now(wib).strftime('%Y-%m-%d %H:%M:%S'),
